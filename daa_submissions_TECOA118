@@ -1,0 +1,149 @@
+
+#zigzag sequence
+from __future__ import print_function
+def findZigZagSequence(a, n):
+    a.sort()
+    mid = int((n )/2)
+    a[mid], a[n-1] = a[n-1], a[mid]
+
+    st = mid + 1
+    ed = n - 2
+    while(st <= ed):
+        a[st], a[ed] = a[ed], a[st]
+        st = st + 1
+        ed = ed - 1
+
+    for i in range (n):
+        if i == n-1:
+            print(a[i])
+        else:
+            print(a[i], end = ' ')
+    return
+
+test_cases = int(raw_input())
+for cs in range (test_cases):
+    n = int(raw_input())
+    a = list(map(int, raw_input().split()))
+    findZigZagSequence(a, n)
+
+
+
+
+
+
+
+#the great xor
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+# Complete the theGreatXor function below.
+def theGreatXor(x):
+    c=0
+    l=list(bin(x)[2:])
+    l.reverse()
+    for i in range(len(l)):
+        if l[i]=='0':
+            c+=1<<i
+    return c        
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    q = int(input())
+
+    for q_itr in range(q):
+        x = int(input())
+
+        result = theGreatXor(x)
+
+        fptr.write(str(result) + '\n')
+
+    fptr.close()
+
+
+
+
+
+
+###changing bits
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'changeBits' function below.
+#
+# The function accepts following parameters:
+#  1. STRING a
+#  2. STRING b
+#  3. STRING_ARRAY queries
+#
+def probe(num,pos):
+    num=int(num)
+    pos=int(pos)
+    cursor=1<<pos
+    if(num==(num|cursor)):
+        return 1
+    return 0
+def setval(num,pos,val):
+    num=int(num)
+    pos=int(pos)
+    val=int(val)
+
+    cursor=1<<(pos)
+    res=num|cursor
+    if val!=0:
+        return res
+    return res^cursor
+
+def changeBits(a, b, queries):
+    a=int(a,2)
+    b=int(b,2)
+    ans=''
+    f=0  
+    for i in range(len(queries)):
+        queries[i]=queries[i].split(' ')
+    for i in queries:
+        if i[0]=='set_a':
+            a=setval(a,i[1],i[2])
+            f=0
+        elif i[0]=='set_b':
+            b=setval(b,i[1],i[2])
+            f=0
+        else:
+            if(f==0):
+                c=a+b
+            f=1
+            cc=probe(c,i[1])
+            ans+=str(cc)
+    print(ans)                            
+
+if __name__ == '__main__':
+    first_multiple_input = input().rstrip().split()
+
+    ab_size = int(first_multiple_input[0])
+
+    queries_size = int(first_multiple_input[1])
+
+    a = input()
+
+    b = input()
+
+    queries = []
+
+    for _ in range(queries_size):
+        queries_item = input()
+        queries.append(queries_item)
+
+    changeBits(a, b, queries)
+
+
